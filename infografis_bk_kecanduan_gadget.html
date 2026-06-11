@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infografis BK — Kecanduan Gadget & Media Sosial</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F0EEF9;min-height:100vh;padding:1.5rem 1rem 3rem}
+.wrap{max-width:720px;margin:0 auto}
+.hero{background:#7F77DD;border-radius:16px;padding:1.75rem 1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.hero::after{content:'📱';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:64px;opacity:.2;pointer-events:none}
+.hero-eyebrow{font-size:11px;color:#CECBF6;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.hero-title{font-size:26px;font-weight:700;color:#fff;line-height:1.25}
+.hero-sub{font-size:14px;color:#CECBF6;margin-top:6px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:#fff;border:0.5px solid #D3D1C7;border-radius:12px;padding:1rem;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.stat-card.show{opacity:1;transform:translateY(0)}
+.stat-num{font-size:28px;font-weight:700;color:#7F77DD}
+.stat-label{font-size:11px;color:#5F5E5A;margin-top:4px;line-height:1.4}
+.tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid #D3D1C7;background:#fff;color:#5F5E5A;transition:all .2s;font-family:inherit}
+.tab:hover{background:#EEEDFE;color:#534AB7;border-color:#AFA9EC}
+.tab.active{background:#7F77DD;color:#fff;border-color:#7F77DD}
+.panel{display:none}
+.panel.active{display:block}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.info-card{background:#fff;border:0.5px solid #D3D1C7;border-radius:12px;padding:1rem;opacity:0;transform:scale(0.96);transition:opacity .35s,transform .35s}
+.info-card.show{opacity:1;transform:scale(1)}
+.info-card .ico{font-size:26px;margin-bottom:8px}
+.info-card .ctitle{font-size:13px;font-weight:600;color:#2C2C2A}
+.info-card .cdesc{font-size:12px;color:#5F5E5A;margin-top:4px;line-height:1.5}
+.info-card.red{border-left:3px solid #E24B4A;border-radius:0 12px 12px 0}
+.info-card.amber{border-left:3px solid #EF9F27;border-radius:0 12px 12px 0}
+.info-card.teal{border-left:3px solid #1D9E75;border-radius:0 12px 12px 0}
+.bar-wrap{margin-bottom:14px}
+.bar-label{display:flex;justify-content:space-between;font-size:12px;color:#5F5E5A;margin-bottom:5px}
+.bar-track{background:#F1EFE8;border-radius:6px;height:12px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:#7F77DD;width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
+.section-label{font-size:11px;color:#888780;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.tips-list{display:flex;flex-direction:column;gap:10px}
+.tip-item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:#fff;border:0.5px solid #D3D1C7;border-radius:12px;opacity:0;transform:translateX(-14px);transition:opacity .4s,transform .4s}
+.tip-item.show{opacity:1;transform:translateX(0)}
+.tip-num{width:30px;height:30px;min-width:30px;background:#EEEDFE;color:#534AB7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.tip-text{font-size:13px;color:#2C2C2A;line-height:1.6}
+.tip-text strong{color:#534AB7}
+.quiz-wrap{background:#fff;border:0.5px solid #D3D1C7;border-radius:12px;padding:1.5rem}
+.quiz-q{font-size:14px;font-weight:600;color:#2C2C2A;margin-bottom:1rem;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.qopt{padding:11px 15px;border-radius:8px;border:1px solid #D3D1C7;background:#fff;font-size:13px;color:#2C2C2A;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit}
+.qopt:hover{background:#F1EFE8;border-color:#AFA9EC}
+.qopt.correct{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+.qopt.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+.quiz-result{margin-top:12px;font-size:13px;font-weight:500;min-height:20px;color:#2C2C2A;line-height:1.5}
+.quiz-nav{display:flex;align-items:center;margin-top:14px;gap:8px}
+.prog{font-size:12px;color:#888780;margin-left:auto}
+.btn{padding:8px 18px;border-radius:8px;border:1px solid #AFA9EC;background:#EEEDFE;color:#534AB7;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s}
+.btn:hover{background:#7F77DD;color:#fff;border-color:#7F77DD}
+.score-box{background:#EEEDFE;border-radius:12px;padding:1.25rem;text-align:center;margin-top:1rem}
+.score-big{font-size:36px;font-weight:700;color:#534AB7}
+.score-msg{font-size:14px;color:#3C3489;margin-top:4px}
+.cta{background:#7F77DD;border-radius:16px;padding:1.25rem 1.5rem;margin-top:1.5rem;display:flex;align-items:center;gap:16px}
+.cta-icon{width:44px;height:44px;min-width:44px;background:#AFA9EC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.cta-text{color:#fff;font-size:13px;line-height:1.6}
+.cta-text strong{font-weight:700;font-size:14px;display:block;margin-bottom:2px}
+.content-card{background:#fff;border:0.5px solid #D3D1C7;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+@media(max-width:480px){
+  .stat-row{grid-template-columns:1fr 1fr}
+  .stat-row .stat-card:last-child{grid-column:1/-1}
+  .hero-title{font-size:22px}
+  .tabs{gap:4px}
+  .tab{padding:6px 12px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .stat-card,.info-card,.tip-item,.bar-fill{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Bimbingan &amp; Konseling</div>
+    <div class="hero-title">Kecanduan Gadget<br>&amp; Media Sosial</div>
+    <div class="hero-sub">Kenali · Pahami · Atasi bersama</div>
+  </div>
+
+  <div class="stat-row" id="stats">
+    <div class="stat-card"><div class="stat-num" id="s1">0</div><div class="stat-label">jam/hari rata-rata remaja pakai gadget</div></div>
+    <div class="stat-card"><div class="stat-num" id="s2">0%</div><div class="stat-label">remaja cek HP dalam 5 menit bangun tidur</div></div>
+    <div class="stat-card"><div class="stat-num" id="s3">0%</div><div class="stat-label">merasa cemas saat HP tidak ada di tangan</div></div>
+  </div>
+
+  <div class="content-card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('tanda',this)">🔍 Tanda-tanda</button>
+      <button class="tab" onclick="switchTab('dampak',this)">⚠️ Dampak</button>
+      <button class="tab" onclick="switchTab('tips',this)">✅ Cara mengatasi</button>
+      <button class="tab" onclick="switchTab('kuis',this)">🧠 Kuis singkat</button>
+    </div>
+
+    <div id="tab-tanda" class="panel active">
+      <div class="cards-grid" id="tanda-cards">
+        <div class="info-card"><div class="ico">😤</div><div class="ctitle">Mudah marah</div><div class="cdesc">Kesal atau agresif saat dilarang pegang HP</div></div>
+        <div class="info-card"><div class="ico">😴</div><div class="ctitle">Kurang tidur</div><div class="cdesc">Main gadget hingga dini hari, susah bangun pagi</div></div>
+        <div class="info-card"><div class="ico">🔄</div><div class="ctitle">Selalu cek HP</div><div class="cdesc">Mengecek notifikasi tiap beberapa menit sekali</div></div>
+        <div class="info-card"><div class="ico">📚</div><div class="ctitle">Abaikan tugas</div><div class="cdesc">Lupa PR, malas belajar karena asyik scroll</div></div>
+        <div class="info-card"><div class="ico">🧍</div><div class="ctitle">Menarik diri</div><div class="cdesc">Lebih suka online daripada kumpul teman</div></div>
+        <div class="info-card"><div class="ico">😟</div><div class="ctitle">Gelisah tanpa HP</div><div class="cdesc">Merasa tidak nyaman bila jauh dari gadget</div></div>
+      </div>
+    </div>
+
+    <div id="tab-dampak" class="panel">
+      <div style="margin-bottom:1.25rem">
+        <div class="section-label">Seberapa besar dampaknya?</div>
+        <div class="bar-wrap"><div class="bar-label"><span>Kesehatan mental</span><span id="b1v">0%</span></div><div class="bar-track"><div class="bar-fill" id="b1" data-val="78"></div></div></div>
+        <div class="bar-wrap"><div class="bar-label"><span>Prestasi belajar</span><span id="b2v">0%</span></div><div class="bar-track"><div class="bar-fill" id="b2" data-val="65" style="background:#D85A30"></div></div></div>
+        <div class="bar-wrap"><div class="bar-label"><span>Hubungan sosial</span><span id="b3v">0%</span></div><div class="bar-track"><div class="bar-fill" id="b3" data-val="71" style="background:#1D9E75"></div></div></div>
+        <div class="bar-wrap"><div class="bar-label"><span>Kualitas tidur</span><span id="b4v">0%</span></div><div class="bar-track"><div class="bar-fill" id="b4" data-val="83" style="background:#D4537E"></div></div></div>
+      </div>
+      <div class="cards-grid" id="dampak-cards">
+        <div class="info-card red"><div class="ico">🧠</div><div class="ctitle">Mental terganggu</div><div class="cdesc">Cemas, depresi, rendah diri akibat perbandingan di medsos</div></div>
+        <div class="info-card amber"><div class="ico">📉</div><div class="ctitle">Nilai menurun</div><div class="cdesc">Konsentrasi buyar, fokus belajar berkurang drastis</div></div>
+        <div class="info-card teal"><div class="ico">👥</div><div class="ctitle">Sosial renggang</div><div class="cdesc">Hubungan keluarga dan teman nyata melemah</div></div>
+      </div>
+    </div>
+
+    <div id="tab-tips" class="panel">
+      <div class="tips-list" id="tips-list">
+        <div class="tip-item"><div class="tip-num">1</div><div class="tip-text"><strong>Tetapkan jadwal screen time</strong> — Buat aturan bebas gadget saat makan, belajar, dan 1 jam sebelum tidur.</div></div>
+        <div class="tip-item"><div class="tip-num">2</div><div class="tip-text"><strong>Aktif kegiatan offline</strong> — Olahraga, seni, atau ekstrakurikuler bisa mengisi waktu lebih bermakna.</div></div>
+        <div class="tip-item"><div class="tip-num">3</div><div class="tip-text"><strong>Nonaktifkan notifikasi</strong> — Kurangi godaan membuka medsos setiap saat.</div></div>
+        <div class="tip-item"><div class="tip-num">4</div><div class="tip-text"><strong>Zona bebas HP di kamar tidur</strong> — Tidur lebih nyenyak dan pikiran lebih segar pagi hari.</div></div>
+        <div class="tip-item"><div class="tip-num">5</div><div class="tip-text"><strong>Ceritakan perasaanmu</strong> — Bicara dengan orang tua, teman, atau guru BK. Kamu tidak sendiri!</div></div>
+      </div>
+    </div>
+
+    <div id="tab-kuis" class="panel">
+      <div class="quiz-wrap" style="border:none;padding:0">
+        <div class="quiz-q" id="qq"></div>
+        <div class="quiz-opts" id="qopts"></div>
+        <div class="quiz-result" id="qres"></div>
+        <div class="quiz-nav">
+          <button class="btn" onclick="nextQ()" id="qnext" style="display:none">Lanjut →</button>
+          <span class="prog" id="qprog"></span>
+        </div>
+        <div id="qscore" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="cta-icon">🤝</div>
+    <div class="cta-text">
+      <strong>Butuh bantuan? Yuk ke ruang BK!</strong>
+      Guru BK siap mendampingi kamu menemukan keseimbangan antara dunia digital dan nyata.
+    </div>
+  </div>
+
+</div>
+<script>
+var quizData=[
+  {q:"Berapa lama waktu layar yang direkomendasikan per hari untuk remaja?",opts:["Tidak terbatas","Maksimal 2 jam di luar keperluan belajar","Maksimal 8 jam","Terserah asal tidak malam"],ans:1,explain:"WHO dan ahli kesehatan menyarankan maks. 2 jam hiburan layar per hari di luar keperluan belajar."},
+  {q:"Manakah yang BUKAN tanda kecanduan gadget?",opts:["Marah saat HP diambil","Tidur tepat waktu setiap malam","Selalu cek HP tiap beberapa menit","Mengabaikan tugas sekolah"],ans:1,explain:"Tidur tepat waktu justru tanda kebiasaan sehat — bukan tanda kecanduan gadget."},
+  {q:"Apa langkah pertama yang bisa dilakukan untuk mengurangi kecanduan gadget?",opts:["Langsung buang HP","Minta orang tua kunci semua aplikasi","Buat jadwal dan batasan waktu pemakaian","Tidak perlu dilakukan apa-apa"],ans:2,explain:"Membuat jadwal dan batasan waktu adalah langkah praktis pertama yang bisa langsung dilakukan."},
+  {q:"Kenapa kecanduan medsos bisa memengaruhi kesehatan mental remaja?",opts:["Karena medsos itu membosankan","Karena terlalu banyak perbandingan diri dengan orang lain","Karena sinyal HP merusak otak","Karena tidak ada hubungannya"],ans:1,explain:"Perbandingan terus-menerus di medsos dapat memicu rasa rendah diri, cemas, dan depresi."}
+];
+var qi=0,score=0,answered=false;
+
+function loadQ(){
+  if(qi>=quizData.length){showScore();return;}
+  var d=quizData[qi];
+  document.getElementById('qq').textContent=(qi+1)+'. '+d.q;
+  document.getElementById('qres').textContent='';
+  document.getElementById('qnext').style.display='none';
+  answered=false;
+  var wrap=document.getElementById('qopts');
+  wrap.innerHTML='';
+  d.opts.forEach(function(o,i){
+    var b=document.createElement('button');
+    b.className='qopt';b.textContent=o;
+    b.onclick=function(){answer(i);};
+    wrap.appendChild(b);
+  });
+  document.getElementById('qprog').textContent=(qi+1)+' / '+quizData.length;
+  document.getElementById('qscore').style.display='none';
+}
+
+function answer(i){
+  if(answered)return;
+  answered=true;
+  var d=quizData[qi];
+  var btns=document.querySelectorAll('.qopt');
+  btns.forEach(function(b,idx){
+    if(idx===d.ans)b.classList.add('correct');
+    else if(idx===i&&i!==d.ans)b.classList.add('wrong');
+    b.style.pointerEvents='none';
+  });
+  if(i===d.ans){score++;document.getElementById('qres').textContent='✅ Benar! '+d.explain;}
+  else{document.getElementById('qres').textContent='❌ Kurang tepat. '+d.explain;}
+  document.getElementById('qnext').style.display='inline-block';
+}
+
+function nextQ(){qi++;loadQ();}
+
+function showScore(){
+  document.getElementById('qq').textContent='Kuis selesai!';
+  document.getElementById('qopts').innerHTML='';
+  document.getElementById('qres').textContent='';
+  document.getElementById('qnext').style.display='none';
+  document.getElementById('qprog').textContent='';
+  var msgs=['Yuk pelajari lagi ya!','Lumayan, terus belajar!','Bagus sekali!','Sempurna! Kamu sudah paham.'];
+  var msg=score===4?msgs[3]:score>=3?msgs[2]:score>=2?msgs[1]:msgs[0];
+  document.getElementById('qscore').style.display='block';
+  document.getElementById('qscore').innerHTML='<div class="score-box"><div class="score-big">'+score+' / 4</div><div class="score-msg">'+msg+'</div></div><button class="btn" onclick="restartQuiz()" style="margin-top:12px">Ulangi kuis</button>';
+}
+
+function restartQuiz(){qi=0;score=0;answered=false;loadQ();}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='dampak')setTimeout(animBars,80);
+  if(id==='tanda')animCards('tanda-cards','info-card');
+  if(id==='tips')animTips();
+  if(id==='kuis'){qi=0;score=0;loadQ();}
+}
+
+function animCards(wrapId,cls){
+  var cards=document.getElementById(wrapId).querySelectorAll('.'+cls);
+  cards.forEach(function(c,i){c.classList.remove('show');setTimeout(function(){c.classList.add('show');},i*80);});
+}
+
+function animTips(){
+  var items=document.querySelectorAll('#tips-list .tip-item');
+  items.forEach(function(t,i){t.classList.remove('show');setTimeout(function(){t.classList.add('show');},i*100);});
+}
+
+function animBars(){
+  ['b1','b2','b3','b4'].forEach(function(id){
+    var el=document.getElementById(id);
+    var v=el.getAttribute('data-val');
+    el.style.width=v+'%';
+    var cur=0;var target=parseInt(v);
+    var iv=setInterval(function(){cur+=2;if(cur>=target){cur=target;clearInterval(iv);}document.getElementById(id+'v').textContent=cur+'%';},20);
+  });
+  animCards('dampak-cards','info-card');
+}
+
+function countUp(el,target,suffix,dur){
+  var cur=0;var step=Math.ceil(target/(dur/16));
+  var iv=setInterval(function(){cur=Math.min(cur+step,target);el.textContent=cur+suffix;if(cur>=target)clearInterval(iv);},16);
+}
+
+window.addEventListener('load',function(){
+  var sc=document.querySelectorAll('#stats .stat-card');
+  sc.forEach(function(c,i){setTimeout(function(){c.classList.add('show');},300+i*150);});
+  setTimeout(function(){
+    countUp(document.getElementById('s1'),8,'jam',800);
+    countUp(document.getElementById('s2'),72,'%',900);
+    countUp(document.getElementById('s3'),61,'%',900);
+    animCards('tanda-cards','info-card');
+    loadQ();
+  },600);
+});
+</script>
+</body>
+</html>
